@@ -33,7 +33,7 @@ public class MovieCatalogResource {
         LOGGER.info("In getCatalog for the user :{} ", userId);
         /*List<Rating> ratings = Arrays.asList(new Rating("100", 5),
                 new Rating("101", 6));*/
-        UserRating userRating = restTemplate.getForObject("http://localhost:8003/rating/user/" + userId, UserRating.class);
+        UserRating userRating = restTemplate.getForObject("http://Rating-data-service/rating/user/" + userId, UserRating.class);
         System.out.println("userRating is: "+userRating);
 
         Stream<CatalogItem> catalogItemStream = userRating.getUserRating().stream().map(rating -> {
@@ -41,7 +41,7 @@ public class MovieCatalogResource {
 
             Movie movie = webClientBuilder.build()
                     .get()
-                    .uri("http://localhost:8002/movies/" + rating.getMovieId())
+                    .uri("http://Movie-info-service/movies/" + rating.getMovieId())
                     .retrieve()
                     .bodyToMono(Movie.class)
                     .block();
