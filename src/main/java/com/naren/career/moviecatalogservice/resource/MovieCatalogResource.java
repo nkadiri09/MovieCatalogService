@@ -1,6 +1,9 @@
 package com.naren.career.moviecatalogservice.resource;
 
 
+import com.naren.career.moviecatalogservice.resource.service.MovieService;
+import com.naren.career.moviecatalogservice.resource.service.RatingService;
+import org.apache.catalina.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +25,10 @@ public class MovieCatalogResource {
     private static final Logger LOGGER = LoggerFactory.getLogger(MovieCatalogResource.class);
 
     @Autowired
-    private RestTemplate restTemplate;
+    private RatingService ratingService;
 
     @Autowired
-    private WebClient.Builder webClientBuilder;
+    private MovieService movieService;
 
     @RequestMapping("/{userId}")
     public List<CatalogItem> getCatalog(@PathVariable("userId") String userId){
@@ -33,19 +36,13 @@ public class MovieCatalogResource {
         LOGGER.info("In getCatalog for the user :{} ", userId);
         /*List<Rating> ratings = Arrays.asList(new Rating("100", 5),
                 new Rating("101", 6));*/
-        UserRating userRating = restTemplate.getForObject("http://Rating-data-service/rating/user/" + userId, UserRating.class);
-        System.out.println("userRating is: "+userRating);
+        UserRating userRating = ratingService.getUserRating(userId);
 
         Stream<CatalogItem> catalogItemStream = userRating.getUserRating().stream().map(rating -> {
             // Movie movie = restTemplate.getForObject("http://localhost:8002/movies/" + rating.getMovieId(), Movie.class);
 
-            Movie movie = webClientBuilder.build()
-                    .get()
-                    .uri("http://Movie-info-service/movies/" + rating.getMovieId())
-                    .retrieve()
-                    .bodyToMono(Movie.class)
-                    .block();
-            assert movie != null;
+            Movie movie = movieService.getMovie(rating.getMovieId());
+
             // consolidating the results
             return new CatalogItem(movie.getName(), movie.getDesc(), rating.getRating());
         });
