@@ -1,10 +1,9 @@
 package com.naren.career.moviecatalogservice.resource.service;
-import com.naren.career.moviecatalogservice.resource.Movie;
+
 import com.naren.career.moviecatalogservice.resource.Rating;
 import com.naren.career.moviecatalogservice.resource.UserRating;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -20,6 +19,7 @@ public class RatingService {
     @HystrixCommand(
             fallbackMethod ="getUserRatingFallBack",
             threadPoolKey = "movieInfoPool",
+            // BulkHead pattern implementation to separate the thread pool to each service.s
             threadPoolProperties = {
                     @HystrixProperty(name="coreSize", value = "10"),
                     @HystrixProperty(name="maxQueueSize", value = "20"),
