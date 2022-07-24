@@ -1,6 +1,6 @@
 package com.naren.career.moviecatalogservice.resource.service;
 
-import com.naren.career.moviecatalogservice.resource.Movie;
+import com.naren.career.moviecatalogservice.resource.bean.Movie;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +14,13 @@ public class MovieService {
     private WebClient.Builder webClientBuilder;
 
     @HystrixCommand(
-            fallbackMethod ="getMovieFallback",
-            commandProperties = {
+            fallbackMethod ="getMovieFallback"
+/*            ,commandProperties = {
                     @HystrixProperty(name="execution.isolation.timeoutInMilliseconds", value = "2000"),
                     @HystrixProperty(name="circuitBreaker.requestVolumeThreshold", value = "5"),
                     @HystrixProperty(name="circuitBreaker.errorThresholdPercentage", value = "50"),
                     @HystrixProperty(name="circuitBreaker.sleepWindowInMilliseconds", value = "5000"),
-            }
+            }*/
     )
     public Movie getMovie(String movieId){
 

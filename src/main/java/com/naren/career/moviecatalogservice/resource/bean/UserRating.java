@@ -1,4 +1,4 @@
-package com.naren.career.moviecatalogservice.resource;
+package com.naren.career.moviecatalogservice.resource.bean;
 
 import java.util.List;
 
