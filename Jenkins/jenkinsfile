@@ -8,12 +8,12 @@ pipeline {
         }
         stage("Clone Repo"){
             steps {
-                sh "git clone https://github.com/jenkins-docs/simple-java-maven-app.git"
+                sh "git clone https://github.com/nkadiri09/MovieCatalogService.git"
             }
         }
         stage("Build"){
             steps {
-                dir("simple-java-maven-app") {
+                dir("MovieCatalogService") {
                     sh "mvn clean install"
                 }
             }
