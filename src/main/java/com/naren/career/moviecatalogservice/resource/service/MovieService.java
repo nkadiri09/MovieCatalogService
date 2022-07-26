@@ -2,7 +2,6 @@ package com.naren.career.moviecatalogservice.resource.service;
 
 import com.naren.career.moviecatalogservice.resource.bean.Movie;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -30,7 +29,6 @@ public class MovieService {
                     .retrieve()
                     .bodyToMono(Movie.class)
                     .block();
-
         return movie;
     }
 
