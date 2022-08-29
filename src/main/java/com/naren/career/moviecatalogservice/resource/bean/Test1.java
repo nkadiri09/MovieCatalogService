@@ -19,5 +19,7 @@ public class Test1 {
         List<String> r = allColorBalls.stream()
                 .sorted(sortComparator).collect(Collectors.toList());
         System.out.println("Red Color balls: " + r);
+
+        // Added dummy lines
     }
 }
