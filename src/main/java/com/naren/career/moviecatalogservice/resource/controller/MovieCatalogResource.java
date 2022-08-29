@@ -10,6 +10,7 @@ import com.naren.career.moviecatalogservice.resource.service.RatingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,10 +34,15 @@ public class MovieCatalogResource {
     @Autowired
     private MovieService movieService;
 
+    @Value("${server.port}")
+    private String port;
+
     @RequestMapping("/{userId}")
     public List<CatalogItem> getCatalog(@PathVariable("userId") String userId){
 
-        LOGGER.info("In getCatalog for the user :{} ", userId);
+        LOGGER.info("In getCatalog for the user : {} ", userId);
+        LOGGER.info("port is : {} ", port);
+
         /*List<Rating> ratings = Arrays.asList(new Rating("100", 5),
                 new Rating("101", 6));*/
         UserRating userRating = ratingService.getUserRating(userId);
